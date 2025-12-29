@@ -1,0 +1,20 @@
+# === Unreal Engine Generated ===
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+
+# === Visual Studio / IDE ===
+.vs/
+*.sln
+*.vcxproj*
+*.opensdf
+*.sdf
+*.user
+
+# === Rider ===
+.idea/
+
+# === OS ===
+.DS_Store
+Thumbs.db
