@@ -2,7 +2,7 @@
 
 
 #include "DlAssetManager.h"
-#include "DlGame/DHLogChannels.h"
+#include "Dl/DlLogChannels.h"
 
 UDlAssetManager::UDlAssetManager()
 {
@@ -19,7 +19,7 @@ UDlAssetManager& UDlAssetManager::Get()
 	}
 
 	// 에셋매니저 클래스가 잘못됐다. 중단한다.
-	UE_LOG(LogDH, Fatal, TEXT("Invalid AssetManager class '%s'! It must be a '%s'"), *GEngine->AssetManager->GetClass()->GetName(), *UDlAssetManager::StaticClass()->GetName());
+	UE_LOG(LogDl, Fatal, TEXT("Invalid AssetManager class '%s'! It must be a '%s'"), *GEngine->AssetManager->GetClass()->GetName(), *UDlAssetManager::StaticClass()->GetName());
 
 	return *NewObject<UDlAssetManager>();
 }

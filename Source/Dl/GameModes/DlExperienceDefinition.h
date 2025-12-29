@@ -4,25 +4,26 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
-#include "DIExperienceDefinition.generated.h"
+#include "DlExperienceDefinition.generated.h"
 
-class UDlHPawnData;
+class UDlPawnData;
+
 /**
  * 
  */
-
 UCLASS()
-class DL_API UDIExperienceDefinition : public UPrimaryDataAsset
+class DL_API UDlExperienceDefinition : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
+	
 public:
-	UDIExperienceDefinition(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+	UDlExperienceDefinition(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 	/**
 	 * member variables
 	 */
 	UPROPERTY(EditDefaultsOnly, Category = Gameplay)
-	TObjectPtr<UDlHPawnData> DefaultPawnData;
+	TObjectPtr<UDlPawnData> DefaultPawnData;
 
 	/**
 	 * 해당 property는 단순히 마킹 및 기억용으로 남겨둔다

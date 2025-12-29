@@ -3,4 +3,4 @@
 
 #include "DlLogChannels.h"
 
-DEFINE_LOG_CATEGORY(LogDH);
+DEFINE_LOG_CATEGORY(LogDl);
