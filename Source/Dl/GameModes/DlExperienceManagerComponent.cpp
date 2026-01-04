@@ -3,7 +3,7 @@
 
 #include "DlExperienceManagerComponent.h"
 
-void UDlExperienceManagerComponent::CallOrRegister_OnExperienceLoaded(const FOnDlExperiencedLoaded::FDelegate& Delegate)
+void UDlExperienceManagerComponent::CallOrRegister_OnExperienceLoaded(FOnDlExperienceLoaded::FDelegate&& Delegate)
 {
 	if (IsExperienceLoaded())
 	{

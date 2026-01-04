@@ -6,6 +6,8 @@
 #include "GameFramework/PlayerState.h"
 #include "DlPlayerState.generated.h"
 
+class UDlExperienceDefinition;
+class UDlPawnData;
 /**
  * 
  */
@@ -13,5 +15,12 @@ UCLASS()
 class DL_API ADlPlayerState : public APlayerState
 {
 	GENERATED_BODY()
+public:
+	virtual void PostInitializeComponents() final;
+
+	void OnExperienceLoaded(const UDlExperienceDefinition* CurrentExperience);
+
+	UPROPERTY()
+	TObjectPtr<const UDlPawnData> PawnData;
 	
 };

@@ -17,4 +17,6 @@ class DL_API UDlPawnData : public UPrimaryDataAsset
 public:
 	UDlPawnData(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Dl|PawnData")
+	TSubclassOf<APawn> PawnClass;
 };

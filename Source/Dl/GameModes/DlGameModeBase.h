@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "DlGameModeBase.generated.h"
 
+class UDlExperienceDefinition;
 /**
  * 
  */
@@ -17,9 +18,14 @@ public:
 	ADlGameModeBase();
 
 	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
+	virtual void InitGameState() override;
+
+	virtual void HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer) final;
+	virtual APawn* SpawnDefaultPawnAtTransform_Implementation(AController* NewPlayer, const FTransform& SpawnTransform) final;
 
 	void HandleMatchAssignmentIfNotExpectingOne();
-
+	void OnExperienceLoaded(const class UDlExperienceDefinition* CurrentExperience);
+	bool IsExperienceLoaded() const;
 };
 
 /*

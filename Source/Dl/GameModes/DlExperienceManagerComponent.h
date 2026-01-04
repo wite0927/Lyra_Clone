@@ -16,7 +16,7 @@ enum class EDlExperienceLoadState
 	Deactivating,
 };
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnDlExperiencedLoaded, const UDlExperienceDefinition*);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnDlExperienceLoaded, const UDlExperienceDefinition*);
 
 /**
  * 말 그대로, 해당 컴포넌트는 gamestate를 오너로 가지면서, experience의 상태 정보를 갖고 있는 component다.
@@ -30,7 +30,8 @@ class DL_API UDlExperienceManagerComponent : public UGameStateComponent
 public:
 	bool IsExperienceLoaded() const { return (LoadState == EDlExperienceLoadState::Loaded) && (CurrentExperience != nullptr); }
 
-	void CallOrRegister_OnExperienceLoaded(const FOnDlExperiencedLoaded::FDelegate& Delegate);
+	/* 아래의 OnExperienceLoaded에 바인딩하거나, 이미 Experience 로딩이 완료되었다면 바로 호출함 */
+	void CallOrRegister_OnExperienceLoaded(FOnDlExperienceLoaded::FDelegate&& Delegate);
 public:
 	UPROPERTY()
 	TObjectPtr<UDlExperienceDefinition> CurrentExperience;
@@ -38,5 +39,5 @@ public:
 	/*Experience의 로딩 상태를 모니터링*/
 	EDlExperienceLoadState LoadState = EDlExperienceLoadState::Unloaded;
 	/*Experience 로딩 완료된 후, Boradcasting Delegate*/
-	FOnDlExperiencedLoaded OnExperienceLoaded;
+	FOnDlExperienceLoaded OnExperienceLoaded;
 };
