@@ -16,7 +16,8 @@ public class Dl : ModuleRules
 			"EnhancedInput" ,
 			"GameplayTags" ,
 			"ModularGameplay",
-		});
+            "GameFeatures",
+        });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

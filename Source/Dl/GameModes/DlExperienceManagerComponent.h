@@ -32,9 +32,15 @@ public:
 
 	/* 아래의 OnExperienceLoaded에 바인딩하거나, 이미 Experience 로딩이 완료되었다면 바로 호출함 */
 	void CallOrRegister_OnExperienceLoaded(FOnDlExperienceLoaded::FDelegate&& Delegate);
+
+	void ServerSetCurrentExperience(FPrimaryAssetId ExperienceID);
+	void StartExperienceLoad();
+	void OnExperienceLoadComplete();
+	void OnExperienceFullLoadCompleted();
+
 public:
 	UPROPERTY()
-	TObjectPtr<UDlExperienceDefinition> CurrentExperience;
+	TObjectPtr<const UDlExperienceDefinition> CurrentExperience;
 
 	/*Experience의 로딩 상태를 모니터링*/
 	EDlExperienceLoadState LoadState = EDlExperienceLoadState::Unloaded;

@@ -57,7 +57,29 @@ APawn* ADlGameModeBase::SpawnDefaultPawnAtTransform_Implementation(AController* 
 //modular gameplay / game
 void ADlGameModeBase::HandleMatchAssignmentIfNotExpectingOne()
 {
+	// 우리가 로딩할 Experience에 대해 PrmaryAssetId를 생성하여 OnMatchAssignmentGiven에 넘겨준다
 
+	FPrimaryAssetId ExperienceId;
+
+	UWorld* World = GetWorld();
+
+	//일단 기본 옵션으로 Default하게 B_DlDefaultExperience로 설정해놓음
+	if (!ExperienceId.IsValid())
+	{
+		ExperienceId = FPrimaryAssetId(FPrimaryAssetType("DlExperienceDefinition"), FName("B_DlDefaultExperience"));
+	}
+
+	OnMatchAssignmentGiven(ExperienceId);
+}
+
+void ADlGameModeBase::OnMatchAssignmentGiven(FPrimaryAssetId ExpereieceId)
+{
+	//ExperienceManagerComponent을 활용하여 Experience을 로딩하기 위해, ExperienceManagerComponent의 ServerSetCurrentExperience를 호출한다
+	check(ExpereieceId.IsValid());
+
+	UDlExperienceManagerComponent* ExperienceManagerComponent = GameState->FindComponentByClass<UDlExperienceManagerComponent>();
+	check(ExperienceManagerComponent);
+	ExperienceManagerComponent->ServerSetCurrentExperience(ExpereieceId);
 }
 
 void ADlGameModeBase::OnExperienceLoaded(const UDlExperienceDefinition* CurrentExperience)
