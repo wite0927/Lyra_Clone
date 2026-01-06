@@ -3,6 +3,7 @@
 
 #include "DlPlayerState.h"
 #include "Dl/GameModes/DlExperienceManagerComponent.h"
+#include "Dl/GameModes/DlGameModeBase.h"
 
 void ADlPlayerState::PostInitializeComponents()
 {
@@ -20,5 +21,19 @@ void ADlPlayerState::PostInitializeComponents()
 
 void ADlPlayerState::OnExperienceLoaded(const UDlExperienceDefinition* CurrentExperience)
 {
+	if (ADlGameModeBase* GameMode = GetWorld()->GetAuthGameMode<ADlGameModeBase>())
+	{
+		const UDlPawnData* NewPawnData = GameMode->GetPawnDataForController(GetOwningController());
+		check(NewPawnData);
 
+		SetPawnData(NewPawnData);
+	}
+}
+
+void ADlPlayerState::SetPawnData(const UDlPawnData* InPawnData)
+{
+	check(InPawnData);
+
+	check(!PawnData);
+	PawnData = InPawnData;
 }

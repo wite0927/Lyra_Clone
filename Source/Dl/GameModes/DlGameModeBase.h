@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "DlGameModeBase.generated.h"
 
+class UDlPawnData;
 class UDlExperienceDefinition;
 /**
  * 
@@ -20,13 +21,17 @@ public:
 	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
 	virtual void InitGameState() override;
 
+	virtual UClass* GetDefaultPawnClassForController_Implementation(AController* InController) final;
+
 	virtual void HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer) final;
+
 	virtual APawn* SpawnDefaultPawnAtTransform_Implementation(AController* NewPlayer, const FTransform& SpawnTransform) final;
 
 	void HandleMatchAssignmentIfNotExpectingOne();
 	void OnMatchAssignmentGiven(FPrimaryAssetId ExpereieceId);
 	void OnExperienceLoaded(const class UDlExperienceDefinition* CurrentExperience);
 	bool IsExperienceLoaded() const;
+	const UDlPawnData* GetPawnDataForController(const AController* InController) const;
 };
 
 /*

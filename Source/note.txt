@@ -1,0 +1,19 @@
+처음부터는 못했지만 지금부터라도 필기 시작.
+
+GameFeature라는 시스템
+GameStateComponent 는 GameState에 붙힐 수 있는 부품
+확장성 좋음 / 디버깅 힘들다
+ExperienceManager를 GameState에 붙힐거다.
+
+InitGameState에서 로딩이 되었는지 확인
+ExperienceManager에서 로딩 되었는지 체크
+
+Login
+InitNewPlayer -> UpdatePlayerStartSpot -> FindPlayerStart_Implementation -> ChoosePlayerStartImplementation
+-> GetDefaultPawnClassForController_Implementation -> GetPawnDataForController
+LoginEnd
+
+PostLogin
+HandleStartingNewPlayer_Implementation -> RestartPlayerAtPlayerStart
+
+이 때 아직 ExperienceComponenet가 붙어있지 않으니 플레이어 정보를 저장해놨다가 나중에 불러들임

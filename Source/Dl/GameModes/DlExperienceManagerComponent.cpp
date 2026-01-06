@@ -105,3 +105,10 @@ void UDlExperienceManagerComponent::OnExperienceFullLoadCompleted()
 	OnExperienceLoaded.Broadcast(CurrentExperience);
 	OnExperienceLoaded.Clear();
 }
+
+const UDlExperienceDefinition* UDlExperienceManagerComponent::GetCurrentExperienceChecked() const
+{
+	check(LoadState == EDlExperienceLoadState::Loaded);
+	check(CurrentExperience != nullptr);
+	return CurrentExperience;
+}

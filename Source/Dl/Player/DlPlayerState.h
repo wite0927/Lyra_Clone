@@ -19,6 +19,11 @@ public:
 	virtual void PostInitializeComponents() final;
 
 	void OnExperienceLoaded(const UDlExperienceDefinition* CurrentExperience);
+	template <class T>
+	const T* GetPawnData() const {
+		return Cast<T>(PawnData);
+	}
+	void SetPawnData(const UDlPawnData* InPawnData);
 
 	UPROPERTY()
 	TObjectPtr<const UDlPawnData> PawnData;
