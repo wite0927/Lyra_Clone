@@ -17,3 +17,7 @@ PostLogin
 HandleStartingNewPlayer_Implementation -> RestartPlayerAtPlayerStart
 
 이 때 아직 ExperienceComponenet가 붙어있지 않으니 플레이어 정보를 저장해놨다가 나중에 불러들임
+
+CDO -> 기본값들을 UObect 방식으로 만들어 놓은 것. 기본값의 모음. 기본값을 저장하는 UObject
+시리얼라이제이션 하는 과정에서 델타 시리얼라이제이션/직렬화를 지원하기 위함
+델타시리얼라이제이션 : 기본값이랑 비교해서 다른 데이터를 저장 --> 메모리 절약(언리얼은 데디케이트서버 기반이기 때문에 서버에 바뀐 부분만 전달하면 됨)

@@ -30,7 +30,7 @@ void UDlExperienceManagerComponent::ServerSetCurrentExperience(FPrimaryAssetId E
 		AssetClass = Cast<UClass>(AssetPath.TryLoad());
 	}
 
-	const UDlExperienceDefinition* Experience = GetDefault<UDlExperienceDefinition>(AssetClass);
+	const UDlExperienceDefinition* Experience = GetDefault<UDlExperienceDefinition>(AssetClass); // CDO
 	check(Experience != nullptr);
 	check(CurrentExperience == nullptr);
 	{
