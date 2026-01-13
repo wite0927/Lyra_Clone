@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "DlCharacter.generated.h"
 
+class UDlPawnExtensionComponent;
+
 UCLASS()
 class DL_API ADlCharacter : public ACharacter
 {
@@ -26,4 +28,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+public:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Dl|Character")
+	TObjectPtr<UDlPawnExtensionComponent> PawnExtComponent;
 };
