@@ -14,6 +14,24 @@ UDlPawnExtensionComponent::UDlPawnExtensionComponent(const FObjectInitializer& O
 	//매 틱마다 계산 안하고 델리게이트 같은 호출 방식으로 처리 -> 효율적
 }
 
+void UDlPawnExtensionComponent::SetPawnData(const UDlPawnData* InPawnData)
+{
+	// Pawn에 대해 Authority가 없을 경우, SetPawnData는 진행하지 않음
+	APawn* Pawn = GetPawnChecked<APawn>();
+	if (Pawn->GetLocalRole() != ROLE_Authority)
+	{
+		return;
+	}
+
+	if (PawnData)
+	{
+		return;
+	}
+
+	// PawnData 업데이트
+	PawnData = InPawnData;
+}
+
 void UDlPawnExtensionComponent::OnRegister()
 {
 	Super::OnRegister();
@@ -68,10 +86,66 @@ void UDlPawnExtensionComponent::EndPlay(const EEndPlayReason::Type EndPlayReason
 
 void UDlPawnExtensionComponent::OnActorInitStateChanged(const FActorInitStateChangedParams& Params)
 {
+	if (Params.FeatureName != NAME_ActorFeatureName)
+	{
+		// PawnExtensionComponent 는 다른 Feature component들의 상태가 DataAvailable일 때 Sync를 맞추기 위해
+		// OnActorInitStateChanged에서는 DataAvailable에 대해 지속적으로 CheckDefaultInitialization을 호출하여, 상태를 확인한다
+		const FDlGameplayTags& InitTags = FDlGameplayTags::Get();
+		if (Params.FeatureState == InitTags.InitState_DataAvailable)
+		{
+			CheckDefaultInitialization();
+		}
+	}
 }
 
 bool UDlPawnExtensionComponent::CanChangeInitState(UGameFrameworkComponentManager* Manager, FGameplayTag CurrentState, FGameplayTag DesiredState) const
 {
+	check(Manager);
+
+	APawn* Pawn = GetPawn<APawn>();
+	const FDlGameplayTags& InitTags = FDlGameplayTags::Get();
+
+	//InitState_Spawned 초기화
+	if (!CurrentState.IsValid() && DesiredState == InitTags.InitState_Spawned)
+	{
+		//Pawn이 있으면 바로 Spawned로 넘어감
+		if (Pawn)
+			return true;
+	}
+
+	//Spawned -> DataAvailable
+	if (CurrentState == InitTags.InitState_Spawned && DesiredState == InitTags.InitState_DataAvailable)
+	{
+		if (!PawnData)
+		{
+			return false;
+		}
+
+		const bool bIsLocallyControlled = Pawn->IsLocallyControlled();
+		if (bIsLocallyControlled)
+		{
+			if (!GetController<AController>())
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	//DataAvailabe -> DataInitialized
+	if (CurrentState == InitTags.InitState_DataAvailable && DesiredState == InitTags.InitState_DataInitialized)
+	{
+		//Actor에 바인드 된 모든 Feature(컴포넌트)들이 DataAvailable 일 때, DataInitialized로 넘어감.
+		return Manager->HaveAllFeaturesReachedInitState(Pawn, InitTags.InitState_DataAvailable);
+	}
+
+	//DataInitialized->GameplayReady
+	if (CurrentState == InitTags.InitState_DataInitialized && DesiredState == InitTags.InitState_GameplayReady)
+	{
+		return true;
+	}
+
 	return false;
 }
 

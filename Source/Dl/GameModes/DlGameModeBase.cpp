@@ -9,6 +9,7 @@
 #include "Dl/Player/DlPlayerState.h"
 #include "Dl/Character/DlCharacter.h"
 #include "Dl/Character/DlPawnData.h"
+#include "Dl/Character/DlPawnExtensionComponent.h"
 
 ADlGameModeBase::ADlGameModeBase()
 {
@@ -63,8 +64,30 @@ void ADlGameModeBase::HandleStartingNewPlayer_Implementation(APlayerController* 
 
 APawn* ADlGameModeBase::SpawnDefaultPawnAtTransform_Implementation(AController* NewPlayer, const FTransform& SpawnTransform)
 {
-	UE_LOG(LogDl, Log, TEXT("SpawnDefaultPawnAtTransform_Implementation is called!"));
-	return Super::SpawnDefaultPawnAtTransform_Implementation(NewPlayer, SpawnTransform);
+	//최종적으로 스폰을 진행
+	FActorSpawnParameters SpawnInfo;
+	SpawnInfo.Instigator = GetInstigator();
+	SpawnInfo.ObjectFlags |= RF_Transient;
+	SpawnInfo.bDeferConstruction = true;
+
+	if (UClass* PawnClass = GetDefaultPawnClassForController(NewPlayer))
+	{
+		if (APawn* SpawnedPawn = GetWorld()->SpawnActor<APawn>(PawnClass, SpawnTransform, SpawnInfo))
+		{
+			if (UDlPawnExtensionComponent* PawnExtComp = UDlPawnExtensionComponent::FindPawnExtensionComponent(SpawnedPawn))
+			{
+				if (const UDlPawnData* PawnData = GetPawnDataForController(NewPlayer))
+				{
+					PawnExtComp->SetPawnData(PawnData);
+				}
+			}
+
+			SpawnedPawn->FinishSpawning(SpawnTransform);
+			return SpawnedPawn;
+		}
+	}
+
+	return nullptr;
 }
 
 //modular gameplay / game
