@@ -32,5 +32,6 @@ void ADlCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	PawnExtComponent->SetupPlayerInputComponent();
 }
 

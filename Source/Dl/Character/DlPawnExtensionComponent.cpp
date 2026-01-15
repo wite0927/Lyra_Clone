@@ -32,6 +32,12 @@ void UDlPawnExtensionComponent::SetPawnData(const UDlPawnData* InPawnData)
 	PawnData = InPawnData;
 }
 
+void UDlPawnExtensionComponent::SetupPlayerInputComponent()
+{
+	// 강제 업데이트로 다시 InitState 상태 변환 시작
+	CheckDefaultInitialization();
+}
+
 void UDlPawnExtensionComponent::OnRegister()
 {
 	Super::OnRegister();

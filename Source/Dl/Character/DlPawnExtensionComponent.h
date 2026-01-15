@@ -26,6 +26,7 @@ public:
 	template<class T>
 	const T* GetPawnData() const { return Cast<T>(PawnData); }
 	void SetPawnData(const UDlPawnData* InPawnData);
+	void SetupPlayerInputComponent();
 
 	//UPawnComponent interfaces
 	virtual void OnRegister() final;

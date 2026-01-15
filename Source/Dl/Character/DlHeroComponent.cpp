@@ -6,6 +6,7 @@
 #include "Dl/DlGamePlayTags.h"
 #include "DlPawnExtensionComponent.h"
 #include <Dl/Player/DlPlayerState.h>
+#include "DlPawnData.h"
 
 const FName UDlHeroComponent::NAME_ActorFeatureName("Hero");
 
@@ -125,6 +126,24 @@ bool UDlHeroComponent::CanChangeInitState(UGameFrameworkComponentManager* Manage
 void UDlHeroComponent::HandleChangeInitState(UGameFrameworkComponentManager* Manager, FGameplayTag CurrentState, FGameplayTag DesiredState)
 {
 	//Data 핸들링이 필요해서 ExtensionComponent에는 없고 여기에 있음.
+	const FDlGameplayTags& InitTags = FDlGameplayTags::Get();
+
+	if (CurrentState == InitTags.InitState_DataAvailable && DesiredState == InitTags.InitState_DataInitialized)
+	{
+		APawn* Pawn = GetPawn<APawn>();
+		ADlPlayerState* DlPS = GetPlayerState<ADlPlayerState>();
+		if (!ensure(Pawn && DlPS))
+		{
+			return;
+		}
+
+		const bool bIsLocallyControlled = Pawn->IsLocallyControlled();
+		const UDlPawnData* PawnData = nullptr;
+		if (UDlPawnExtensionComponent* PawnExtComp = UDlPawnExtensionComponent::FindPawnExtensionComponent(Pawn))
+		{
+			PawnData = PawnExtComp->GetPawnData<UDlPawnData>();
+		}
+	}
 }
 
 void UDlHeroComponent::CheckDefaultInitialization()
