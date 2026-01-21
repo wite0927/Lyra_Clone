@@ -7,6 +7,7 @@
 #include "DlCharacter.generated.h"
 
 class UDlPawnExtensionComponent;
+class UDlCameraComponent;
 
 UCLASS()
 class DL_API ADlCharacter : public ACharacter
@@ -31,4 +32,8 @@ public:
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Dl|Character")
 	TObjectPtr<UDlPawnExtensionComponent> PawnExtComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Dl|Character")
+	TObjectPtr<UDlCameraComponent> CameraComponent;
+
 };

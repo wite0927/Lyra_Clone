@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include "Dl/Camera/DlCameraMode.h"
 #include "DlPawnData.generated.h"
 
 /**
@@ -17,6 +18,11 @@ class DL_API UDlPawnData : public UPrimaryDataAsset
 public:
 	UDlPawnData(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
+	/* Pawn¿« Class */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Dl|PawnData")
 	TSubclassOf<APawn> PawnClass;
+
+	/* Camera Mode */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Dl|Camera")
+	TSubclassOf<UDlCameraMode> DefaultCameraMode;
 };

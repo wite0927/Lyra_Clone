@@ -2,6 +2,7 @@
 
 #include "DlCharacter.h"
 #include "DlPawnExtensionComponent.h"
+#include "Dl/Camera/DlCameraComponent.h"
 
 // Sets default values
 ADlCharacter::ADlCharacter()
@@ -11,6 +12,12 @@ ADlCharacter::ADlCharacter()
 	PrimaryActorTick.bCanEverTick = false;
 
 	PawnExtComponent = CreateDefaultSubobject<UDlPawnExtensionComponent>(TEXT("PawnExtensionComponent"));
+
+	// CameraComponent »ý¼º
+	{
+		CameraComponent = CreateDefaultSubobject<UDlCameraComponent>(TEXT("CameraComponent"));
+		CameraComponent->SetRelativeLocation(FVector(-300.0f, 0.0f, 75.0f));
+	}
 }
 
 // Called when the game starts or when spawned

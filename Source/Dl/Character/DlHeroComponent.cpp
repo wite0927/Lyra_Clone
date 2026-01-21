@@ -5,6 +5,7 @@
 #include "Dl/DlLogChannels.h"
 #include "Dl/DlGamePlayTags.h"
 #include "DlPawnExtensionComponent.h"
+#include "Dl/Camera/DlCameraComponent.h"
 #include <Dl/Player/DlPlayerState.h>
 #include "DlPawnData.h"
 
@@ -143,6 +144,14 @@ void UDlHeroComponent::HandleChangeInitState(UGameFrameworkComponentManager* Man
 		{
 			PawnData = PawnExtComp->GetPawnData<UDlPawnData>();
 		}
+
+		if (bIsLocallyControlled && PawnData)
+		{
+			if (UDlCameraComponent* CameraComponent = UDlCameraComponent::FindCameraComponent(Pawn))
+			{
+				CameraComponent->DetermineCameraModeDelegate.BindUObject(this, &ThisClass::DetermineCameraMode);
+			}
+		}
 	}
 }
 
@@ -155,4 +164,22 @@ void UDlHeroComponent::CheckDefaultInitialization()
 	const FDlGameplayTags& InitTags = FDlGameplayTags::Get();
 	static const TArray<FGameplayTag> StateChain = { InitTags.InitState_Spawned, InitTags.InitState_DataAvailable, InitTags.InitState_DataInitialized, InitTags.InitState_GameplayReady };
 	ContinueInitStateChain(StateChain);
+}
+
+TSubclassOf<UDlCameraMode> UDlHeroComponent::DetermineCameraMode() const
+{
+	const APawn* Pawn = GetPawn<APawn>();
+	if (!Pawn)
+	{
+		return nullptr;
+	}
+
+	if (UDlPawnExtensionComponent* PawnExtComp = UDlPawnExtensionComponent::FindPawnExtensionComponent(Pawn))
+	{
+		if (const UDlPawnData* PawnData = PawnExtComp->GetPawnData<UDlPawnData>())
+		{
+			return PawnData->DefaultCameraMode;
+		}
+	}
+	return nullptr;
 }

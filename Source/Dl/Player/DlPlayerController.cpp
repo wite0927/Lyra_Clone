@@ -2,4 +2,9 @@
 
 
 #include "DlPlayerController.h"
+#include "Dl/Camera/DlPlayerCameraManager.h"
 
+ADlPlayerController::ADlPlayerController(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+{
+	PlayerCameraManagerClass = ADlPlayerCameraManager::StaticClass();
+}

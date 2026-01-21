@@ -13,5 +13,7 @@ UCLASS()
 class DL_API ADlPlayerController : public APlayerController
 {
 	GENERATED_BODY()
+public:
+	ADlPlayerController(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 	
 };

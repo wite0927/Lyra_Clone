@@ -7,6 +7,9 @@
 #include "Components/PawnComponent.h"
 #include "DlHeroComponent.generated.h"
 
+class UDlCameraMode;
+template<class TClass> class TSubclassOf;
+
 /**
  * 카메라, 입력 등 플레이어가 제어하는 시스템의 초기화를 처리함
  */
@@ -31,4 +34,9 @@ public:
 	virtual bool CanChangeInitState(UGameFrameworkComponentManager* Manager, FGameplayTag CurrentState, FGameplayTag DesiredState) const final;
 	virtual void HandleChangeInitState(UGameFrameworkComponentManager* Manager, FGameplayTag CurrentState, FGameplayTag DesiredState) final;
 	virtual void CheckDefaultInitialization() final;
+
+	/*
+	*member methods
+	*/
+	TSubclassOf<UDlCameraMode> DetermineCameraMode() const;
 };

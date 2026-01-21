@@ -40,7 +40,6 @@ void UDlExperienceManagerComponent::ServerSetCurrentExperience(FPrimaryAssetId E
 	StartExperienceLoad();
 }
 
-PRAGMA_DISABLE_OPTIMIZATION
 void UDlExperienceManagerComponent::StartExperienceLoad()
 {
 	check(CurrentExperience);
