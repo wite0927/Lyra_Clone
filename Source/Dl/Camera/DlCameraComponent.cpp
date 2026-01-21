@@ -22,6 +22,9 @@ void UDlCameraComponent::GetCameraView(float DeltaTime, FMinimalViewInfo& Desire
 	check(CameraModeStack);
 
 	UpdateCameraModes();
+
+	FDlCameraModeView CameraModeView;
+	CameraModeStack->EvaluateStack(DeltaTime, CameraModeView);
 }
 
 void UDlCameraComponent::UpdateCameraModes()
@@ -30,9 +33,9 @@ void UDlCameraComponent::UpdateCameraModes()
 
 	if (DetermineCameraModeDelegate.IsBound())
 	{
-		if (const TSubclassOf<UDlCameraMode> CameraMode = DetermineCameraModeDelegate.Execute())
+		if (TSubclassOf<UDlCameraMode> CameraMode = DetermineCameraModeDelegate.Execute())
 		{
-
+			CameraModeStack->PushCameraMode(CameraMode);
 		}
 	}
 }

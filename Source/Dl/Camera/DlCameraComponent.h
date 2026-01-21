@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Camera/CameraComponent.h"
+#include "DlCameraMode.h"
 #include "DlCameraComponent.generated.h"
 
 class UDlCameraModeStack;
-class UDlCameraMode;
 
 template <class TClass> class TSubclassOf;
 
@@ -26,6 +26,7 @@ public:
 	static UDlCameraComponent* FindCameraComponent(const AActor* Actor) { return (Actor ? Actor->FindComponentByClass<UDlCameraComponent>() : nullptr); }
 
 	/*Member Methods*/
+	AActor* GetTargetActor() const { return GetOwner(); }
 	void UpdateCameraModes();
 
 	/* CameraComponenet Interface */
