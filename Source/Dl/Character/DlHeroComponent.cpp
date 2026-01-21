@@ -20,24 +20,16 @@ UDlHeroComponent::UDlHeroComponent(const FObjectInitializer& ObjectInitializer) 
 
 void UDlHeroComponent::OnRegister()
 {
-	Super::BeginPlay();
+	Super::OnRegister();
 
-	//FeatureName에 None을 넣으면, Acotr에 등록된 Feature Compnent의 InitState를 관찰하곘다는 의미
-	BindOnActorInitStateChanged(NAME_None, FGameplayTag(), false);
-
-	/*
-	InitState_Spawned로 상태 변환
-	1. CanChangeInitState로 변환 가능한지 판단
-	2. HandleChangeInitState로 상태 변경
-	3. BindOnActorInitStateChanged로 Bind된 Delegate를 조건에 맞게 호출
-	 - DlPawnExtensionComponent의 경우, 모든 Actor의 Feature 상태 변화에 대해 OnActorInitStateChanged()가 호출됨
-	*/
-	ensure(TryToChangeInitState(FDlGameplayTags::Get().InitState_Spawned));
-
-	/*
-	강제로 상태 업데이트를 실행
-	*/
-	CheckDefaultInitialization();
+	// 올바른 Actor에 등록되었는지 확인:
+	{
+		if (!GetPawn<APawn>())
+		{
+			UE_LOG(LogDl, Error, TEXT("this component has been added to a BP whose base class is not a Pawn!"));
+			return;
+		}
+	}
 }
 
 void UDlHeroComponent::BeginPlay()

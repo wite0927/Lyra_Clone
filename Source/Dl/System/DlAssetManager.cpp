@@ -2,6 +2,7 @@
 
 
 #include "DlAssetManager.h"
+#include "Dl/DlGamePlayTags.h"
 #include "Dl/DlLogChannels.h"
 
 UDlAssetManager::UDlAssetManager()
@@ -28,6 +29,8 @@ PRAGMA_DISABLE_OPTIMIZATION
 void UDlAssetManager::StartInitialLoading()
 {
 	Super::StartInitialLoading();
+
+	FDlGameplayTags::InitializeNativeTags();
 }
 PRAGMA_ENABLE_OPTIMIZATION
 
