@@ -15,10 +15,25 @@ struct FDlCameraModeView
 {
 	FDlCameraModeView();
 
+	void Blend(const FDlCameraModeView& Other, float OtherWeight);
+
 	FVector Location;
 	FRotator Rotation;
 	FRotator ControlRotation;
 	float FieldOfView;
+};
+
+/*
+* [0,1]을 BlendFunction에 맞게 재매핑을 위한 타입
+*/
+UENUM(BlueprintType)
+enum class EDlCameraModeBlendFunction : uint8
+{
+	Linear,
+	EaseIn, //Exponent값에 의해 조정
+	EaseOut,
+	EaseInOut,
+	COUNT,
 };
 
 /**
@@ -34,8 +49,8 @@ public:
 	/*
 	* member methods
 	*/
-	void UpdateView(float DeltaTiem);
-	void UpdateCamera(float DeltaTime);
+	virtual void UpdateView(float DeltaTiem);
+	void UpdateCameraMode(float DeltaTime);
 	void UpdateBlending(float DeltaTime);
 
 	UDlCameraComponent* GetDlCameraComponent() const;
@@ -67,10 +82,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Blending")
 	float BlendTime;
 
-	/* 얼마동안 Blend 진행할건지 */
-	UPROPERTY(EditDefaultsOnly, Category = "Blending")
-	float BlendTime;
-
 	/*선형적인 Blend값[0,1]*/
 	float BlendAlpha;
 
@@ -80,6 +91,14 @@ public:
 	*/
 	float BlendWeight;
 	
+	/*
+	* EaseIn/Out에 사용한 Exponent
+	*/
+	UPROPERTY(EditDefaultsOnly, Category = "Blending")
+	float BlendExponent;
+
+	/* Blend Fucntion */
+	EDlCameraModeBlendFunction BlendFunction;
 };
 
 /* Camera Blending을 담당하는 객체*/
@@ -97,6 +116,7 @@ public:
 	void PushCameraMode(TSubclassOf<UDlCameraMode>& CameraModeClass);
 	void UpdateStack(float DeltaTime);
 	void EvaluateStack(float DeltaTime, FDlCameraModeView& OutCameraModeView);
+	void BlendStack(FDlCameraModeView& OutCameraModeView) const;
 
 	/* 생성된 CameraMode를 관리 */
 	UPROPERTY()

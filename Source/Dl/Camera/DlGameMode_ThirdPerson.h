@@ -6,6 +6,8 @@
 #include "DlCameraMode.h"
 #include "DlGameMode_ThirdPerson.generated.h"
 
+class UCurveVector;
+
 /**
  * 
  */
@@ -15,4 +17,12 @@ class DL_API UDlGameMode_ThirdPerson : public UDlCameraMode
 	GENERATED_BODY()
 public:
 	UDlGameMode_ThirdPerson(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+
+	/*
+	* UDlCameraMode's interface
+	*/
+	virtual void UpdateView(float DeltaTime) override;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Third Person")
+	TObjectPtr<const UCurveVector> TargetOffsetCurve;
 };

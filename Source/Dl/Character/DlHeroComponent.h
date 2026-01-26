@@ -5,9 +5,11 @@
 #include "CoreMinimal.h"
 #include "Components/GameFrameworkInitStateInterface.h"
 #include "Components/PawnComponent.h"
+#include "Dl/Input/DlMappableConfigPair.h"
 #include "DlHeroComponent.generated.h"
 
 class UDlCameraMode;
+
 template<class TClass> class TSubclassOf;
 
 /**
@@ -39,4 +41,7 @@ public:
 	*member methods
 	*/
 	TSubclassOf<UDlCameraMode> DetermineCameraMode() const;
+
+	UPROPERTY(EditAnywhere)
+	TArray<FDlMappableConfigPair> DefaultInputConfigs;
 };

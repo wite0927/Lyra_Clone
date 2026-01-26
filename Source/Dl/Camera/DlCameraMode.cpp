@@ -15,6 +15,31 @@ FDlCameraModeView::FDlCameraModeView()
 {
 }
 
+void FDlCameraModeView::Blend(const FDlCameraModeView& Other, float OtherWeight)
+{
+    if (OtherWeight <= 0.0f)
+    {
+        return;
+    }
+    else if (OtherWeight >= 1.0f)
+    {
+        // Weight가 1.0이면 Other를 덮어쓰면 된다
+        *this = Other;
+        return;
+    }
+
+    // Location + OtherWeight * (Other.Location - Location);
+    Location = FMath::Lerp(Location, Other.Location, OtherWeight);
+    
+    const FRotator DeltaRotation = (Other.Rotation - Rotation).GetNormalized();
+    Rotation = Rotation + (OtherWeight * DeltaRotation);
+
+    const FRotator DeltaControlRotation = (Other.ControlRotation - ControlRotation).GetNormalized();
+    ControlRotation = ControlRotation + (OtherWeight * DeltaRotation);
+
+    FieldOfView = FMath::Lerp(FieldOfView, Other.FieldOfView, OtherWeight);
+}
+
 UDlCameraMode::UDlCameraMode(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
     FieldOfView = DL_CAMERA_DEFAULT_FOV;
@@ -24,9 +49,12 @@ UDlCameraMode::UDlCameraMode(const FObjectInitializer& ObjectInitializer) : Supe
     BlendTime = 0.0f;
     BlendAlpha = 1.0f;
     BlendWeight = 1.0f;
+
+    BlendFunction = EDlCameraModeBlendFunction::EaseOut;
+    BlendExponent = 4.0f;
 }
 
-void UDlCameraMode::UpdateCamera(float DeltaTime)
+void UDlCameraMode::UpdateCameraMode(float DeltaTime)
 {
     // Actor를 활용하여, Pivot[Location|Rotation]을 계산하여, View를 업데이트
     UpdateView(DeltaTime);
@@ -84,6 +112,35 @@ FRotator UDlCameraMode::GetPivotRotation() const
 
 void UDlCameraMode::UpdateBlending(float DeltaTime)
 {
+    // BlendAlpha를 DeltaTime을 통해 계산
+    if (BlendTime > 0.f)
+    {
+        BlendAlpha += (DeltaTime / BlendTime);
+    }
+    else
+    {
+        BlendAlpha = 1.f;
+    }
+
+    const float Exponent = (BlendExponent > 0.0f) ? BlendExponent : 1.0f;
+    switch (BlendFunction)
+    {
+    case EDlCameraModeBlendFunction::Linear:
+        BlendWeight = BlendAlpha;
+        break;
+    case EDlCameraModeBlendFunction::EaseIn:
+        BlendWeight = FMath::InterpEaseIn(0.0f, 1.0f, BlendAlpha, Exponent);
+        break;
+    case EDlCameraModeBlendFunction::EaseOut:
+        BlendWeight = FMath::InterpEaseOut(0.0f, 1.0f, BlendAlpha, Exponent);
+        break;
+    case EDlCameraModeBlendFunction::EaseInOut:
+        BlendWeight = FMath::InterpEaseInOut(0.0f, 1.0f, BlendAlpha, Exponent);
+        break;
+    default:
+        checkf(false, TEXT("UpdateBlending: Invalid BlendFunction [%d]\n"), (uint8)BlendFunction);
+        break;
+    }
 }
 
 UDlCameraComponent* UDlCameraMode::GetDlCameraComponent() const
@@ -200,6 +257,13 @@ void UDlCameraModeStack::PushCameraMode(TSubclassOf<UDlCameraMode>& CameraModeCl
     CameraModeStack.Last()->BlendWeight = 1.0f;
 }
 
+void UDlCameraModeStack::EvaluateStack(float DeltaTime, FDlCameraModeView& OutCameraModeView)
+{
+    UpdateStack(DeltaTime);
+
+    BlendStack(OutCameraModeView);
+}
+
 void UDlCameraModeStack::UpdateStack(float DeltaTime)
 {
     const int32 StackSize = CameraModeStack.Num();
@@ -228,9 +292,26 @@ void UDlCameraModeStack::UpdateStack(float DeltaTime)
     }
 }
 
-void UDlCameraModeStack::EvaluateStack(float DeltaTime, FDlCameraModeView& OutCameraModeView)
+void UDlCameraModeStack::BlendStack(FDlCameraModeView& OutCameraModeView) const
 {
-    UpdateStack(DeltaTime);
+    const int32 StackSize = CameraModeStack.Num();
+    if (StackSize <= 0)
+    {
+        return;
+    }
 
-    BlendStack(OutCameraModeView);
+    // CameraModeStack은 Bottom -> Top 순서로 Blend를 진행
+    const UDlCameraMode* CameraMode = CameraModeStack[StackSize - 1];
+    check(CameraMode);
+
+    OutCameraModeView = CameraMode->View;
+
+    // 이미 Index = [StackSize - 1] 이미 OutCameraModeView로 지정했으므로, StackSize - 2부터 순회하면 된다
+    for (int32 StackIndex = (StackSize - 2); StackIndex >= 0; --StackIndex)
+    {
+        CameraMode = CameraModeStack[StackIndex];
+        check(CameraMode);
+
+        OutCameraModeView.Blend(CameraMode->View, CameraMode->BlendWeight);
+    }
 }
