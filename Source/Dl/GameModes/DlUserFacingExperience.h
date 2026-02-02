@@ -6,6 +6,7 @@
 #include "Engine/DataAsset.h"
 #include "DlUserFacingExperience.generated.h"
 
+class UCommonSession_HostSessionRequest;
 /**
  * 
  */
@@ -14,6 +15,12 @@ class DL_API UDlUserFacingExperience : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 public:
+	/*
+	* Map 로딩 및 Experience 전환을 위해, MapId와 ExperienceID를 활용하여, HostSessionRequest 생성
+	*/
+	UFUNCTION(BlueprintCallable, BlueprintPure = false)
+	UCommonSession_HostSessionRequest* CreateHostingRequest() const;
+
 	/** the specific map to load */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Experience, meta = (AllowedTypes = "Map"))
 	FPrimaryAssetId MapID;

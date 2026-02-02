@@ -17,7 +17,9 @@ public class Dl : ModuleRules
             "GameFeatures",
 
             "InputCore",
-            "EnhancedInput", 
+            "EnhancedInput",
+
+			"CommonUser",
         });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
