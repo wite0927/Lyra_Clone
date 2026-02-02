@@ -9,14 +9,15 @@ public class Dl : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
 		PublicDependencyModuleNames.AddRange(new string[] { 
-			"Core", 
-			"CoreUObject", 
-			"Engine", 
-			"InputCore", 
-			"EnhancedInput" ,
-			"GameplayTags" ,
-			"ModularGameplay",
+			"Core",
+			"CoreUObject",
+			"Engine",
+			"GameplayTags",
+			"ModularGameplay", 
             "GameFeatures",
+
+            "InputCore",
+            "EnhancedInput", 
         });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

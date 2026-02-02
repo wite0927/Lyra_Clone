@@ -3,3 +3,6 @@
 
 #include "DlInputComponent.h"
 
+UDlInputComponent::UDlInputComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+{
+}

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
 #include "Dl/Camera/DlCameraMode.h"
+#include "Dl/Input/DlInputConfig.h"
 #include "DlPawnData.generated.h"
 
 /**
@@ -25,4 +26,8 @@ public:
 	/* Camera Mode */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Dl|Camera")
 	TSubclassOf<UDlCameraMode> DefaultCameraMode;
+
+	/** input configuration used by player controlled pawns to create input mappings and bind input actions */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Dl|InputConfig")
+	TObjectPtr<UDlInputConfig> InputConfig;
 };

@@ -10,7 +10,7 @@
 class UGameplayTagsManager;
 
 /**
- * HakGameplayTags
+ * DlGameplayTags
  * - singleton containing native gameplay tags
  */
 struct FDlGameplayTags

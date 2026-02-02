@@ -8,6 +8,7 @@
 #include "Dl/Input/DlMappableConfigPair.h"
 #include "DlHeroComponent.generated.h"
 
+struct FInputActionValue;
 class UDlCameraMode;
 
 template<class TClass> class TSubclassOf;
@@ -41,6 +42,9 @@ public:
 	*member methods
 	*/
 	TSubclassOf<UDlCameraMode> DetermineCameraMode() const;
+	void InitializePlayerInput(UInputComponent* PlayerInputComponent);
+	void Input_Move(const FInputActionValue& InputActionValue);
+	void Input_LookMouse(const FInputActionValue& InputActionValue);
 
 	UPROPERTY(EditAnywhere)
 	TArray<FDlMappableConfigPair> DefaultInputConfigs;
