@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/GameStateComponent.h"
+#include "GameFeaturePluginOperationResult.h"
 #include "DlExperienceManagerComponent.generated.h"
 
 class UDlExperienceDefinition;
@@ -12,6 +13,7 @@ enum class EDlExperienceLoadState
 {
 	Unloaded,
 	Loading,
+	LoadingGameFeature,
 	Loaded,
 	Deactivating,
 };
@@ -36,6 +38,7 @@ public:
 	void ServerSetCurrentExperience(FPrimaryAssetId ExperienceID);
 	void StartExperienceLoad();
 	void OnExperienceLoadComplete();
+	void OnGameFeaturePluginLoadComplete(const UE::GameFeatures::FResult& Result);
 	void OnExperienceFullLoadCompleted();
 	const UDlExperienceDefinition* GetCurrentExperienceChecked() const;
 
@@ -45,6 +48,11 @@ public:
 
 	/*Experience의 로딩 상태를 모니터링*/
 	EDlExperienceLoadState LoadState = EDlExperienceLoadState::Unloaded;
+
 	/*Experience 로딩 완료된 후, Boradcasting Delegate*/
 	FOnDlExperienceLoaded OnExperienceLoaded;
+
+	/* 활성화 된 GameFeature Plugin */
+	int32 NumGameFeaturePluginsLoading = 0;
+	TArray<FString> GameFeaturePluginURLs;
 };

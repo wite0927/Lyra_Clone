@@ -10,6 +10,7 @@
 #include "Dl/Character/DlCharacter.h"
 #include "Dl/Character/DlPawnData.h"
 #include "Dl/Character/DlPawnExtensionComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 ADlGameModeBase::ADlGameModeBase()
 {
@@ -98,6 +99,13 @@ void ADlGameModeBase::HandleMatchAssignmentIfNotExpectingOne()
 	FPrimaryAssetId ExperienceId;
 
 	UWorld* World = GetWorld();
+
+	// URL과 함꼐 ExtraArgs로 넘겼던 정보는 OptionsString에 저장된다.
+	if (!ExperienceId.IsValid() && UGameplayStatics::HasOption(OptionsString, TEXT("Experience")))
+	{
+		const FString ExperienceFromOptions = UGameplayStatics::ParseOption(OptionsString, TEXT("Experience"));
+		ExperienceId = FPrimaryAssetId(FPrimaryAssetType(UDlExperienceDefinition::StaticClass()->GetFName()), FName(*ExperienceFromOptions));
+	}
 
 	//일단 기본 옵션으로 Default하게 B_DlDefaultExperience로 설정해놓음
 	if (!ExperienceId.IsValid())
