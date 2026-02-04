@@ -7,6 +7,8 @@
 #include "DlExperienceDefinition.generated.h"
 
 class UDlPawnData;
+class UGameFeatureAction;
+class UDlExperienceActionSet;
 
 /**
  * 
@@ -31,4 +33,12 @@ public:
 	 */
 	UPROPERTY(EditDefaultsOnly, Category = Gameplay)
 	TArray<FString> GameFeaturesToEnable;
+
+	/** ExperienceActionSet은 UGameFeatureAction의 Set이며, Gameplay 용도에 맞게 분류의 목적으로 사용 */
+	UPROPERTY(EditAnywhere, Category = Gameplay)
+	TArray<TObjectPtr<UDlExperienceActionSet>> ActionSets;
+
+	/** 일반적인 GameFeatureAction으로서 추가 */
+	UPROPERTY(EditAnywhere, Category = "Actions")
+	TArray<TObjectPtr<UGameFeatureAction>> Actions;
 };

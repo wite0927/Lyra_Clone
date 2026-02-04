@@ -1,11 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "DlExperienceManagerComponent.h"
 #include "GameFeaturesSubsystemSettings.h"
 #include "DlExperienceDefinition.h"
 #include "GameFeaturesSubsystem.h"
 #include "GameFeatureAction.h"
+#include "DlExperienceActionSet.h"
 #include "Dl/System/DlAssetManager.h"
 
 void UDlExperienceManagerComponent::CallOrRegister_OnExperienceLoaded(FOnDlExperienceLoaded::FDelegate&& Delegate)
@@ -149,6 +149,43 @@ void UDlExperienceManagerComponent::OnGameFeaturePluginLoadComplete(const UE::Ga
 void UDlExperienceManagerComponent::OnExperienceFullLoadCompleted()
 {
 	check(LoadState != EDlExperienceLoadState::Loaded);
+
+	// GameFeature Plugin의 로딩과 활성화 이후, GameFeature Action들을 활성화
+	{
+		LoadState = EDlExperienceLoadState::ExecutingActions;
+
+		// GameFeatureAction 활성화를 위한 Context 준비
+		FGameFeatureActivatingContext Context;
+		{
+			const FWorldContext* ExistingWorldContext = GEngine->GetWorldContextFromWorld(GetWorld());
+			if (ExistingWorldContext)
+			{
+				Context.SetRequiredWorldContextHandle(ExistingWorldContext->ContextHandle);
+			}
+		}
+
+		auto ActivateListOfActions = [&Context](const TArray<UGameFeatureAction*>& ActionList)
+			{
+				for (UGameFeatureAction* Action : ActionList)
+				{
+					if (Action)
+					{
+						Action->OnGameFeatureRegistering();
+						Action->OnGameFeatureLoading();
+						Action->OnGameFeatureActivating(Context);
+					}
+				}
+			};
+
+		// 1. Experience의 Actions
+		ActivateListOfActions(CurrentExperience->Actions);
+
+		// 1. Experience의 ActionSets
+		for (const TObjectPtr<UDlExperienceActionSet>& ActionSet : CurrentExperience->ActionSets)
+		{
+			ActivateListOfActions(ActionSet->Actions);
+		}
+	}
 
 	LoadState = EDlExperienceLoadState::Loaded;
 	OnExperienceLoaded.Broadcast(CurrentExperience);

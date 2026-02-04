@@ -26,6 +26,8 @@ public:
 
 	static const FName NAME_ActorFeatureName;
 
+	static const FName NAME_BindInputsNow;
+
 	//UPawnComponent interfaces
 	virtual void OnRegister() final;
 	virtual void BeginPlay() final;

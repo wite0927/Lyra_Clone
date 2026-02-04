@@ -15,6 +15,7 @@
 #include "Dl/Player/DlPlayerState.h"
 
 const FName UDlHeroComponent::NAME_ActorFeatureName("Hero");
+const FName UDlHeroComponent::NAME_BindInputsNow("BindInputsNow");
 
 UDlHeroComponent::UDlHeroComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
@@ -250,6 +251,8 @@ void UDlHeroComponent::InitializePlayerInput(UInputComponent* PlayerInputCompone
 			}
 		}
 	}
+
+	UGameFrameworkComponentManager::SendGameFrameworkComponentExtensionEvent(const_cast<APawn*>(Pawn), NAME_BindInputsNow);
 }
 
 void UDlHeroComponent::Input_Move(const FInputActionValue& InputActionValue)

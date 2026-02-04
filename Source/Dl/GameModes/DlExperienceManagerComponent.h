@@ -14,6 +14,7 @@ enum class EDlExperienceLoadState
 	Unloaded,
 	Loading,
 	LoadingGameFeature,
+	ExecutingActions,
 	Loaded,
 	Deactivating,
 };
