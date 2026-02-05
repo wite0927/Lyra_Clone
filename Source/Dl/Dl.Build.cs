@@ -12,7 +12,9 @@ public class Dl : ModuleRules
 			"Core",
 			"CoreUObject",
 			"Engine",
+
 			"GameplayTags",
+
 			"ModularGameplay", 
             "GameFeatures",
 			"ModularGameplayActors",
