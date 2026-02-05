@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
+#include "ModularCharacter.h"
 #include "DlCharacter.generated.h"
 
 class UDlPawnExtensionComponent;
 class UDlCameraComponent;
 
 UCLASS()
-class DL_API ADlCharacter : public ACharacter
+class DL_API ADlCharacter : public AModularCharacter
 {
 	GENERATED_BODY()
 

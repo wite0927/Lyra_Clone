@@ -15,6 +15,7 @@ public class Dl : ModuleRules
 			"GameplayTags",
 			"ModularGameplay", 
             "GameFeatures",
+			"ModularGameplayActors",
 
             "InputCore",
             "EnhancedInput",
