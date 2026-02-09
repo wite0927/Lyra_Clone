@@ -44,6 +44,14 @@ struct FDlCharacterPartList
 		: OwnerComponent(InOwnerComponent)
 	{}
 
+	bool SpawnActorForEntry(FDlAppliedCharacterPartEntry& Entry);
+	void DestroyActorForEntry(FDlAppliedCharacterPartEntry& Entry);
+
+	FDlCharacterPartHandle AddEntry(FDlCharacterPart NewPart);
+	void RemoveEntry(FDlCharacterPartHandle Handle);
+
+	FGameplayTagContainer CollectCombinedTags() const;
+
 	/* 현재 인스턴스화 된 Character Part*/
 	UPROPERTY()
 	TArray<FDlAppliedCharacterPartEntry> Entries;
@@ -66,6 +74,15 @@ class DL_API UDlPawnComponent_CharacterParts : public UPawnComponent
 	
 public:
 	UDlPawnComponent_CharacterParts(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+
+	USkeletalMeshComponent* GetParentMeshComponent() const;
+	USceneComponent* GetSceneComponentToAttachTo() const;
+
+	FDlCharacterPartHandle AddCharacterPart(const FDlCharacterPart& NewPart);
+	void RemoveCharacterPart(FDlCharacterPartHandle Handle);
+
+	FGameplayTagContainer GetCombinedTags(FGameplayTag RequiredPrefix) const;
+	void BroadcastChanged();
 
 	/*인스턴스화 된 캐릭터 파츠*/
 	UPROPERTY()

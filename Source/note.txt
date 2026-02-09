@@ -26,3 +26,6 @@ CDO -> 기본값들을 UObect 방식으로 만들어 놓은 것. 기본값의 �
 카메라 컴포넌트에서 OnRegister에서 스택 생성.
 GetCameraVeiw가 매 프레임 호출 -> UpdateCameraMode ->DetermineCameraModeDelegate를 통해 모드를 받아오고 스택에 저장
 HeroComponent의 HandleChangeInitState 단계에서  DetermineCameraModeDelegate 바인딩 DefaultCameraMode를 반환하는
+
+
+네트워크 시리얼라이즈 방식을 사용하기 위해 FDlCharacterPartList / FDlAppliedCharacterPartEntry 로 나눈거임

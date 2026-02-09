@@ -7,6 +7,8 @@
 #include "Components/ControllerComponent.h"
 #include "DlControllerComponent_CharacterParts.generated.h"
 
+class UDlPawnComponent_CharacterParts;
+
 USTRUCT()
 struct FDlControllerCharacterPartEntry
 {
@@ -29,6 +31,21 @@ class DL_API UDlControllerComponent_CharacterParts : public UControllerComponent
 	GENERATED_BODY()
 public:
 	UDlControllerComponent_CharacterParts(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+
+	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason);
+
+	UDlPawnComponent_CharacterParts* GetPawnCustomizer() const;;
+
+	UFUNCTION(BlueprintCallable, Category = Cosmetics)
+	void AddCharacterPart(const FDlCharacterPart& NewPart);
+
+	void AddCharacterPartInternal(const FDlCharacterPart& NewPart);
+
+	void RemoveAllCharacterParts();
+
+	UFUNCTION()
+	void OnPossessedPawnChanged(APawn* OldPawn, APawn* NewPawn);
 
 	UPROPERTY(EditAnywhere, Category = Cosmetics)
 	TArray<FDlControllerCharacterPartEntry> CharacterParts;

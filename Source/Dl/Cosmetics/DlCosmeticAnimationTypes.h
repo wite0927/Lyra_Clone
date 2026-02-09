@@ -26,7 +26,7 @@ struct FDlAnimBodyStyleSelectionSet
 	GENERATED_BODY()
 
 	/* GameplayTag를 통해 mesh rules에 따라 알맞은 BodyStyle을 변환 */
-	//USkeletonMesh* SelectBestBodyStyle(const FGameplay) const;
+	USkeletalMesh* SelectBestBodyStyle(const FGameplayTagContainer& CosmeticTags) const;
 
 	/*AnimLayer를 적용할 Skeleton 메시를 들고 있음 -> 애니메이션-메시 간의 룰을 들고 있는 것*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
