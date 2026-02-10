@@ -3,3 +3,6 @@
 
 #include "DlEquipmentInstance.h"
 
+UDlEquipmentInstance::UDlEquipmentInstance(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+{
+}
