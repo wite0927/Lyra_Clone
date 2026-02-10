@@ -29,3 +29,7 @@ HeroComponent의 HandleChangeInitState 단계에서  DetermineCameraModeDelegate
 
 
 네트워크 시리얼라이즈 방식을 사용하기 위해 FDlCharacterPartList / FDlAppliedCharacterPartEntry 로 나눈거임
+
+DefaultEngine.ini에서 CoreRedirects
+->LyraAnimInstance를 이주해 오면 NewName으로 자동으로 바꿔줌
+

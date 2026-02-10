@@ -7,6 +7,32 @@
 #include "DlCosmeticAnimationTypes.generated.h"
 
 USTRUCT(BlueprintType)
+struct FDlAnimLayerSelectionEntry
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UAnimInstance> Layer;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FGameplayTagContainer RequiredTags;
+};
+
+USTRUCT(BlueprintType)
+struct FDlAnimLayerSelectionSet
+{
+	GENERATED_BODY()
+
+	/* AnimInstance의 룰을 가진 LayerRules */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FDlAnimLayerSelectionEntry> LayerRules;
+
+	/* 디폴트 레이어 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UAnimInstance> DefaultLayer;
+};
+
+USTRUCT(BlueprintType)
 struct FDlAnimBodyStyleSelectionEntry
 {
 	GENERATED_BODY()
