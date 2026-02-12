@@ -33,3 +33,4 @@ HeroComponent의 HandleChangeInitState 단계에서  DetermineCameraModeDelegate
 DefaultEngine.ini에서 CoreRedirects
 ->LyraAnimInstance를 이주해 오면 NewName으로 자동으로 바꿔줌
 
+possessed 가 된 다음 프레임에 아이템을 장착해야된다.

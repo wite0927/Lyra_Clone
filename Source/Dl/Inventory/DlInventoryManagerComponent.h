@@ -29,7 +29,7 @@ struct FDlInventoryList
 	{
 	}
 
-	UDlInventoryItemInstance* AddEntry(TSubclassOf<UDlInventoryItemInstance> ItemDef);
+	UDlInventoryItemInstance* AddEntry(TSubclassOf<UDlInventoryItemDefinition> ItemDef);
 
 	UPROPERTY()
 	TArray<FDlInventoryEntry> Entries;
@@ -47,6 +47,9 @@ class DL_API UDlInventoryManagerComponent : public UActorComponent
 	GENERATED_BODY()
 public:
 	UDlInventoryManagerComponent(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+	UDlInventoryItemInstance* AddItemDefinition(TSubclassOf<UDlInventoryItemDefinition> ItemDef);
 
 	UPROPERTY()
 	FDlInventoryList InventoryList;

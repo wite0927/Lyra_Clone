@@ -22,6 +22,11 @@ class DL_API UDlQuickBarComponent : public UControllerComponent
 public:
 	UDlQuickBarComponent(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
+	virtual void BeginPlay() override;
+
+	UFUNCTION(BlueprintCallable)
+	void AddItemToSlot(int32 SlotIndex, UDlInventoryItemInstance* Item);
+
 	/** HUD QuickBar Slot °¹¼ö */
 	UPROPERTY()
 	int32 NumSlots = 3;

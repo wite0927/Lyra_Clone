@@ -26,7 +26,7 @@ public:
 /**
  * 
  */
-UCLASS()
+UCLASS(Blueprintable)
 class DL_API UDlInventoryItemDefinition : public UObject
 {
 	GENERATED_BODY()
