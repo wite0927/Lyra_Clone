@@ -9,5 +9,15 @@ UDlInventoryItemDefinition::UDlInventoryItemDefinition(const FObjectInitializer&
 
 const UDlInventoryItemFragment* UDlInventoryItemDefinition::FindFragmentByClass(TSubclassOf<UDlInventoryItemFragment> FragmentClass) const
 {
+	if (FragmentClass)
+	{
+		for (UDlInventoryItemFragment* Fragment : Fragments)
+		{
+			if (Fragment && Fragment->IsA(FragmentClass))
+			{
+				return Fragment;
+			}
+		}
+	}
 	return nullptr;
 }

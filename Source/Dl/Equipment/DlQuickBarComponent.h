@@ -8,6 +8,7 @@
 
 class UDlInventoryItemInstance;
 class UDlEquipmentInstance;
+class UDlEquipmentManagerComponent;
 
 /**
  * MMORPGÀÇ ShortCut HUD ÀÓ.
@@ -24,8 +25,15 @@ public:
 
 	virtual void BeginPlay() override;
 
+	UDlEquipmentManagerComponent* FindEquipmentManager() const;
+	void UnequipItemInSlot();
+	void EquipItemSlot();
+
 	UFUNCTION(BlueprintCallable)
 	void AddItemToSlot(int32 SlotIndex, UDlInventoryItemInstance* Item);
+
+	UFUNCTION(BlueprintCallable, Category = "Dl")
+	void SetActiveSlotIndex(int32 NewIndex);
 
 	/** HUD QuickBar Slot °¹¼ö */
 	UPROPERTY()

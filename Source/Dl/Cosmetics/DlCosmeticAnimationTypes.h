@@ -23,6 +23,8 @@ struct FDlAnimLayerSelectionSet
 {
 	GENERATED_BODY()
 
+	TSubclassOf<UAnimInstance> SelectBestLayer(const FGameplayTagContainer& CosmeticTags) const;
+
 	/* AnimInstance의 룰을 가진 LayerRules */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<FDlAnimLayerSelectionEntry> LayerRules;

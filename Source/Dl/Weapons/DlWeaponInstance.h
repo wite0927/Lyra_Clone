@@ -17,6 +17,9 @@ class DL_API UDlWeaponInstance : public UDlEquipmentInstance
 public:
 	UDlWeaponInstance(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Animation)
+	TSubclassOf<UAnimInstance> PickBestAnimLayer(bool bEquipped, const FGameplayTagContainer& CosmeticTags) const;
+
 	/* Weapon에 착용/미착용 에 대한 Animation Set 정보를 들고 있다 */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Animation)
 	FDlAnimLayerSelectionSet EquippedAnimSet;

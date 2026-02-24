@@ -37,7 +37,7 @@ struct FDlEquipmentList
 	{
 	}
 
-	UDlEquipmentInstance* AddEntry(TSubclassOf<UDlEquipmentInstance> EquipmentDefinition);
+	UDlEquipmentInstance* AddEntry(TSubclassOf<UDlEquipmentDefinition> EquipmentDefinition);
 	void RemoveEntry(UDlEquipmentInstance* Instance);
 
 	/** 장착물에 대한 관리 리스트 */
@@ -57,6 +57,9 @@ class DL_API UDlEquipmentManagerComponent : public UPawnComponent
 	GENERATED_BODY()
 public:
 	UDlEquipmentManagerComponent(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+
+	UDlEquipmentInstance* EquipItem(TSubclassOf<UDlEquipmentDefinition> EquipmentDefinition);
+	void UnequipItem(UDlEquipmentInstance* ItemInstance);
 
 	UPROPERTY()
 	FDlEquipmentList EquipmentList;

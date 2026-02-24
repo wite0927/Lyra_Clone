@@ -6,6 +6,8 @@
 #include "UObject/NoExportTypes.h"
 #include "DlEquipmentInstance.generated.h"
 
+struct FDlEquipmentActorToSpawn;
+
 /**
  * 
  */
@@ -16,7 +18,28 @@ class DL_API UDlEquipmentInstance : public UObject
 public:
 	UDlEquipmentInstance(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 	
-	/** 어떤 InventoryItemInstance에 의해 활성화되었는지 (uickBarComponent에서 보게 될 예정) */
+	UFUNCTION(BlueprintImplementableEvent, Category = Equipment, meta = (DiplayName = "OnEquipped"))
+	void K2_OnEquipped();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = Equipment, meta = (DiplayName = "OnUnequipped"))
+	void K2_OnUnequipped();
+
+	UFUNCTION(BlueprintPure, Category = Equipment)
+	APawn* GetPawn() const;
+
+	void SpawnEquipmentActors(const TArray<FDlEquipmentActorToSpawn>& ActorsToSpawn);
+	void DestroyEquipmentActors();
+
+	/**
+	 * DeterminesOutputType은 C++ 정의에는 APawn* 반환하지만, BP에서는 PawnType에 따라 OutputType이 결정되도록 리다이렉트(Redirect)한다
+	 */
+	UFUNCTION(BlueprintPure, Category = Equipment, meta = (DeterminesOutputType = PawnType))
+	APawn* GetTypedPawn(TSubclassOf<APawn> PawnType) const;
+
+	virtual void OnEquipped();
+	virtual void OnUnEquipped();
+
+	/** 어떤 InventoryItemInstance에 의해 활성화되었는지 (QuickBarComponent에서 보게 될 예정) */
 	UPROPERTY()
 	TObjectPtr<UObject> Instigator;
 
