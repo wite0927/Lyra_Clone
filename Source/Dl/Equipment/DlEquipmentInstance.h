@@ -24,6 +24,9 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = Equipment, meta = (DiplayName = "OnUnequipped"))
 	void K2_OnUnequipped();
 
+	UFUNCTION(BlueprintPure)
+	TArray<AActor*> GetSpawnedActors() const { return SpawnedActors; }
+
 	UFUNCTION(BlueprintPure, Category = Equipment)
 	APawn* GetPawn() const;
 

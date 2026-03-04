@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/PawnComponent.h"
+#include "Dl/AbilitySystem/DlAbilitySet.h"
 #include "DlEquipmentManagerComponent.generated.h"
 
 class UDlEquipmentInstance;
@@ -21,6 +22,10 @@ struct FDlAppliedEquipmentEntry
 	/** EquipmentDefinition을 통해 생성도니 인스턴스 */
 	UPROPERTY()
 	TObjectPtr<UDlEquipmentInstance> Instance = nullptr;
+
+	/* 무기에 할당된 허용 가능한 GameplayAbility */
+	UPROPERTY()
+	FDlAbilitySet_GrantedHandles GrantedHandles;
 };
 
 /**
@@ -39,6 +44,8 @@ struct FDlEquipmentList
 
 	UDlEquipmentInstance* AddEntry(TSubclassOf<UDlEquipmentDefinition> EquipmentDefinition);
 	void RemoveEntry(UDlEquipmentInstance* Instance);
+
+	UDlAbilitySystemComponent* GetAbilitySystemComponent() const;
 
 	/** 장착물에 대한 관리 리스트 */
 	UPROPERTY()
@@ -60,6 +67,9 @@ public:
 
 	UDlEquipmentInstance* EquipItem(TSubclassOf<UDlEquipmentDefinition> EquipmentDefinition);
 	void UnequipItem(UDlEquipmentInstance* ItemInstance);
+
+	UFUNCTION(BlueprintCallable)
+	TArray<UDlEquipmentInstance*> GetEquipmentInstancesOfType(TSubclassOf<UDlEquipmentInstance> InstanceType) const;
 
 	UPROPERTY()
 	FDlEquipmentList EquipmentList;

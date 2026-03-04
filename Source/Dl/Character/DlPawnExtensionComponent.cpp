@@ -4,6 +4,7 @@
 #include "Components/GameFrameworkComponentManager.h"
 #include "Dl/DlLogChannels.h"
 #include "Dl/DlGamePlayTags.h"
+#include "Dl/AbilitySystem/DlAbilitySystemComponent.h"
 
 const FName UDlPawnExtensionComponent::NAME_ActorFeatureName("PawnExtension");
 
@@ -36,6 +37,38 @@ void UDlPawnExtensionComponent::SetupPlayerInputComponent()
 {
 	// 강제 업데이트로 다시 InitState 상태 변환 시작
 	CheckDefaultInitialization();
+}
+
+void UDlPawnExtensionComponent::InitializeAbilitySystem(UDlAbilitySystemComponent* InASC, AActor* InOwnerActor)
+{
+	check(InASC && InOwnerActor);
+
+	if (AbilitySystemComponent == InASC)
+	{
+		return;
+	}
+
+	if (AbilitySystemComponent)
+	{
+		UninitializeAbilitySystem();
+	}
+
+	APawn* Pawn = GetPawnChecked<APawn>();
+	AActor* ExistingAvator = InASC->GetAvatarActor();
+	check(!ExistingAvator);
+
+	AbilitySystemComponent = InASC;
+	AbilitySystemComponent->InitAbilityActorInfo(InOwnerActor, Pawn);
+}
+
+void UDlPawnExtensionComponent::UninitializeAbilitySystem()
+{
+	if (!AbilitySystemComponent)
+	{
+		return;
+	}
+
+	AbilitySystemComponent = nullptr;
 }
 
 void UDlPawnExtensionComponent::OnRegister()

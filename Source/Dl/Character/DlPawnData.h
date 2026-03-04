@@ -6,6 +6,7 @@
 #include "Engine/DataAsset.h"
 #include "Dl/Camera/DlCameraMode.h"
 #include "Dl/Input/DlInputConfig.h"
+#include "Dl/AbilitySystem/DlAbilitySet.h"
 #include "DlPawnData.generated.h"
 
 /**
@@ -30,4 +31,7 @@ public:
 	/** input configuration used by player controlled pawns to create input mappings and bind input actions */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Dl|InputConfig")
 	TObjectPtr<UDlInputConfig> InputConfig;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Dl|Abilities")
+	TArray<TObjectPtr<UDlAbilitySet>> AbilitySets;
 };

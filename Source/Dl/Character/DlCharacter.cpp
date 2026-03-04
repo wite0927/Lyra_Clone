@@ -2,6 +2,7 @@
 
 #include "DlCharacter.h"
 #include "DlPawnExtensionComponent.h"
+#include "Dl/AbilitySystem/DlAbilitySystemComponent.h"
 #include "Dl/Camera/DlCameraComponent.h"
 
 // Sets default values
@@ -18,6 +19,11 @@ ADlCharacter::ADlCharacter()
 		CameraComponent = CreateDefaultSubobject<UDlCameraComponent>(TEXT("CameraComponent"));
 		CameraComponent->SetRelativeLocation(FVector(-300.0f, 0.0f, 75.0f));
 	}
+}
+
+UAbilitySystemComponent* ADlCharacter::GetAbilitySystemComponent() const
+{
+	return PawnExtComponent->GetDlAbilitySystemComponent();
 }
 
 // Called when the game starts or when spawned

@@ -14,6 +14,8 @@ public class Dl : ModuleRules
 			"Engine",
 
 			"GameplayTags",
+			"GameplayTasks",
+			"GameplayAbilities",
 
 			"ModularGameplay", 
             "GameFeatures",

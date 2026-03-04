@@ -13,6 +13,7 @@
 #include "Dl/Camera/DlCameraComponent.h"
 #include "Dl/Player/DlPlayerController.h"
 #include "Dl/Player/DlPlayerState.h"
+#include "Dl/AbilitySystem/DlAbilitySystemComponent.h"
 
 const FName UDlHeroComponent::NAME_ActorFeatureName("Hero");
 const FName UDlHeroComponent::NAME_BindInputsNow("BindInputsNow");
@@ -141,6 +142,8 @@ void UDlHeroComponent::HandleChangeInitState(UGameFrameworkComponentManager* Man
 		if (UDlPawnExtensionComponent* PawnExtComp = UDlPawnExtensionComponent::FindPawnExtensionComponent(Pawn))
 		{
 			PawnData = PawnExtComp->GetPawnData<UDlPawnData>();
+
+			PawnExtComp->InitializeAbilitySystem(DlPS->GetDlAblilitySystemComponent(), DlPS);
 		}
 
 		if (bIsLocallyControlled && PawnData)
@@ -243,6 +246,10 @@ void UDlHeroComponent::InitializePlayerInput(UInputComponent* PlayerInputCompone
 
 				UDlInputComponent* DlIC = CastChecked<UDlInputComponent>(PlayerInputComponent);
 				{
+					{
+						TArray<uint32> BindHandles;
+						DlIC->BindAbilityActions(InputConfig, this, &ThisClass::Input_AbilityInputTagPressed, &ThisClass::Input_AbilityInputTagReleased, BindHandles);
+					}
 					// InputTag_Move와 InputTag_Look_Mouse에 대해 각각 Input_Move()와 Input_LookMouse() 멤버 함수에 바인딩시킨다:
 					// - 바인딩한 이후, Input 이벤트에 따라 멤버 함수가 트리거된다
 					DlIC->BindNativeAction(InputConfig, GameplayTags.InputTag_Move, ETriggerEvent::Triggered, this, &ThisClass::Input_Move, false);
@@ -302,5 +309,33 @@ void UDlHeroComponent::Input_LookMouse(const FInputActionValue& InputActionValue
 		// Y에는 Pitch 값
 		double AimInversionValue = -Value.Y;
 		Pawn->AddControllerPitchInput(AimInversionValue);
+	}
+}
+
+void UDlHeroComponent::Input_AbilityInputTagPressed(FGameplayTag InputTag)
+{
+	if (const APawn* Pawn = GetPawn<APawn>())
+	{
+		if (const UDlPawnExtensionComponent* PawnExtComp = UDlPawnExtensionComponent::FindPawnExtensionComponent(Pawn))
+		{
+			if (UDlAbilitySystemComponent* DlASC = PawnExtComp->GetDlAbilitySystemComponent())
+			{
+				DlASC->AbilityInputTagPressed(InputTag);
+			}
+		}
+	}
+}
+
+void UDlHeroComponent::Input_AbilityInputTagReleased(FGameplayTag InputTag)
+{
+	if (const APawn* Pawn = GetPawn<APawn>())
+	{
+		if (const UDlPawnExtensionComponent* PawnExtComp = UDlPawnExtensionComponent::FindPawnExtensionComponent(Pawn))
+		{
+			if (UDlAbilitySystemComponent* DlASC = PawnExtComp->GetDlAbilitySystemComponent())
+			{
+				DlASC->AbilityInputTagReleased(InputTag);
+			}
+		}
 	}
 }

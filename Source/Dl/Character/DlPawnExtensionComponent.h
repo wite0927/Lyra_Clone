@@ -7,6 +7,8 @@
 #include "Components/GameFrameworkInitStateInterface.h"
 #include "DlPawnExtensionComponent.generated.h"
 
+class UDlAbilitySystemComponent;
+
 class UDlPawnData;
 
 /**
@@ -28,6 +30,11 @@ public:
 	void SetPawnData(const UDlPawnData* InPawnData);
 	void SetupPlayerInputComponent();
 
+	/** AbilitySystemComponent의 AvatorActor 대상 초기화/해제 호출 */
+	void InitializeAbilitySystem(UDlAbilitySystemComponent* InASC, AActor* InOwnerActor);
+	void UninitializeAbilitySystem();
+	UDlAbilitySystemComponent* GetDlAbilitySystemComponent() const { return AbilitySystemComponent; }
+
 	//UPawnComponent interfaces
 	virtual void OnRegister() final;
 	virtual void BeginPlay() final;
@@ -44,4 +51,8 @@ public:
 	*/
 	UPROPERTY(EditInstanceOnly, Category = "Dl|Pawn")
 	TObjectPtr<const UDlPawnData> PawnData;
+
+	/** AbilitySystemComponent 캐싱 */
+	UPROPERTY()
+	TObjectPtr<UDlAbilitySystemComponent> AbilitySystemComponent;
 };

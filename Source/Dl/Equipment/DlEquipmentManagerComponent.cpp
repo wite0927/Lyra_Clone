@@ -4,6 +4,8 @@
 #include "DlEquipmentManagerComponent.h"
 #include "DlEquipmentInstance.h"
 #include "DlEquipmentDefinition.h"
+#include "Dl/AbilitySystem/DlAbilitySystemComponent.h"
+#include "AbilitySystemGlobals.h"
 
 UDlEquipmentInstance* FDlEquipmentList::AddEntry(TSubclassOf<UDlEquipmentDefinition> EquipmentDefinition)
 {
@@ -27,6 +29,15 @@ UDlEquipmentInstance* FDlEquipmentList::AddEntry(TSubclassOf<UDlEquipmentDefinit
 	NewEntry.Instance = NewObject<UDlEquipmentInstance>(OwnerComponent->GetOwner(), InstanceType);
 	Result = NewEntry.Instance;
 
+	UDlAbilitySystemComponent* ASC = GetAbilitySystemComponent();
+	check(ASC);
+	{
+		for (const TObjectPtr<UDlAbilitySet> AbilitySet : EquipmentCDO->AbilitySetsToGrant)
+		{
+			AbilitySet->GiveToAbilitySystem(ASC, &NewEntry.GrantedHandles, Result);
+		}
+	}
+
 	Result->SpawnEquipmentActors(EquipmentCDO->ActorsToSpawn);
 
 	return Result;
@@ -40,10 +51,24 @@ void FDlEquipmentList::RemoveEntry(UDlEquipmentInstance* Instance)
 		FDlAppliedEquipmentEntry& Entry = *EntryIt;
 		if (Entry.Instance == Instance)
 		{
+			UDlAbilitySystemComponent* ASC = GetAbilitySystemComponent();
+			check(ASC);
+			{
+				Entry.GrantedHandles.TakeFromAbilitySystem(ASC);
+			}
+
 			Instance->DestroyEquipmentActors();
 			EntryIt.RemoveCurrent();
 		}
 	}
+}
+
+UDlAbilitySystemComponent* FDlEquipmentList::GetAbilitySystemComponent() const
+{
+	check(OwnerComponent);
+	AActor* OwningActor = OwnerComponent->GetOwner();
+
+	return Cast<UDlAbilitySystemComponent>(UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(OwningActor));
 }
 
 UDlEquipmentManagerComponent::UDlEquipmentManagerComponent(const FObjectInitializer& ObjectInitializer)
@@ -73,4 +98,24 @@ void UDlEquipmentManagerComponent::UnequipItem(UDlEquipmentInstance* ItemInstanc
 		ItemInstance->OnUnEquipped();
 		EquipmentList.RemoveEntry(ItemInstance);
 	}
+}
+
+TArray<UDlEquipmentInstance*> UDlEquipmentManagerComponent::GetEquipmentInstancesOfType(TSubclassOf<UDlEquipmentInstance> InstanceType) const
+{
+	TArray<UDlEquipmentInstance*> Results;
+
+	// EquipmentList를 순회하며
+	for (const FDlAppliedEquipmentEntry& Entry : EquipmentList.Entries)
+	{
+		if (UDlEquipmentInstance* Instance = Entry.Instance)
+		{
+			// InstanceType에 맞는 Class이면 Results에 추가하여 반환
+			// - HakRangedWeaponInstance가 될거임
+			if (Instance->IsA(InstanceType))
+			{
+				Results.Add(Instance);
+			}
+		}
+	}
+	return Results;
 }

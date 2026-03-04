@@ -6,6 +6,8 @@
 #include "ModularPlayerController.h"
 #include "DlPlayerController.generated.h"
 
+class ADlPlayerState;
+class UDlAbilitySystemComponent;
 /**
  * 
  */
@@ -16,4 +18,8 @@ class DL_API ADlPlayerController : public AModularPlayerController
 public:
 	ADlPlayerController(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 	
+	virtual void PostProcessInput(const float DeltaTime, const bool bGamePaused) override;
+
+	ADlPlayerState* GetDlPlayerState() const;
+	UDlAbilitySystemComponent* GetDlAbilitySystemComponent() const;
 };

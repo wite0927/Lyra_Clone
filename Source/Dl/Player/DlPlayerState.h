@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerState.h"
 #include "DlPlayerState.generated.h"
 
+class UDlAbilitySystemComponent;
 class UDlExperienceDefinition;
 class UDlPawnData;
 /**
@@ -16,6 +17,8 @@ class DL_API ADlPlayerState : public APlayerState
 {
 	GENERATED_BODY()
 public:
+	ADlPlayerState(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+
 	virtual void PostInitializeComponents() final;
 
 	void OnExperienceLoaded(const UDlExperienceDefinition* CurrentExperience);
@@ -24,8 +27,11 @@ public:
 		return Cast<T>(PawnData);
 	}
 	void SetPawnData(const UDlPawnData* InPawnData);
+	UDlAbilitySystemComponent* GetDlAblilitySystemComponent() const { return AbilitySystemComp; }
 
 	UPROPERTY()
 	TObjectPtr<const UDlPawnData> PawnData;
-	
+
+	UPROPERTY(VisibleAnywhere, Category = "Dl|PlayerState")
+	TObjectPtr<UDlAbilitySystemComponent> AbilitySystemComp;
 };

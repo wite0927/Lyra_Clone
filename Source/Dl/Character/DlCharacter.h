@@ -4,19 +4,22 @@
 
 #include "CoreMinimal.h"
 #include "ModularCharacter.h"
+#include "AbilitySystemInterface.h"
 #include "DlCharacter.generated.h"
 
 class UDlPawnExtensionComponent;
 class UDlCameraComponent;
 
 UCLASS()
-class DL_API ADlCharacter : public AModularCharacter
+class DL_API ADlCharacter : public AModularCharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
 	ADlCharacter();
+
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 protected:
 	// Called when the game starts or when spawned
