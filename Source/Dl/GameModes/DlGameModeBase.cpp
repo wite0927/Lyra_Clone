@@ -10,6 +10,7 @@
 #include "Dl/Character/DlCharacter.h"
 #include "Dl/Character/DlPawnData.h"
 #include "Dl/Character/DlPawnExtensionComponent.h"
+#include "Dl/UI/DlHUD.h"
 #include "Kismet/GameplayStatics.h"
 
 ADlGameModeBase::ADlGameModeBase()
@@ -19,6 +20,7 @@ ADlGameModeBase::ADlGameModeBase()
 	PlayerStateClass = ADlPlayerState::StaticClass();
 	GameStateClass = ADlGameState::StaticClass();
 	DefaultPawnClass = ADlCharacter::StaticClass();
+	HUDClass = ADlHUD::StaticClass();
 	//생성자에서 게임 모드 기본값 지정
 	//게임에서 여러 캐릭터들을 어떻게 하나의 기본값에서 파생시킬지
 }

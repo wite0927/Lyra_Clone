@@ -5,6 +5,8 @@
 #include "Dl/GameModes/DlExperienceManagerComponent.h"
 #include "Abilities/GameplayAbilityTypes.h"
 #include "Dl/AbilitySystem/DlAbilitySystemComponent.h"
+#include "Dl/AbilitySystem/Attributes/DlCombatSet.h"
+#include "Dl/AbilitySystem/Attributes/DlHealthSet.h"
 #include "Dl/GameModes/DlGameModeBase.h"
 #include "Dl/AbilitySystem/DlAbilitySet.h"
 #include "Dl/Character/DlPawnData.h"
@@ -12,6 +14,9 @@
 ADlPlayerState::ADlPlayerState(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	AbilitySystemComp = ObjectInitializer.CreateDefaultSubobject<UDlAbilitySystemComponent>(this, TEXT("AbilitySystemComponent"));
+
+	CreateDefaultSubobject<UDlHealthSet>(TEXT("HealthSet"));
+	CreateDefaultSubobject<UDlCombatSet>(TEXT("CombatSet"));
 }
 
 void ADlPlayerState::PostInitializeComponents()

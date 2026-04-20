@@ -17,6 +17,15 @@ UDlInventoryItemInstance* FDlInventoryList::AddEntry(TSubclassOf<UDlInventoryIte
 	NewEntry.Instance = NewObject<UDlInventoryItemInstance>(OwningActor);
 	NewEntry.Instance->ItemDef = ItemDef;
 
+	// iterating fragments and call callback to OnInstanceCreated()
+	for (UDlInventoryItemFragment* Fragment : GetDefault<UDlInventoryItemDefinition>(ItemDef)->Fragments)
+	{
+		if (Fragment)
+		{
+			Fragment->OnInstanceCreated(NewEntry.Instance);
+		}
+	}
+
 	Result = NewEntry.Instance;
 	return Result;
 }

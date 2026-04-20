@@ -9,6 +9,7 @@
 
 class UDlPawnExtensionComponent;
 class UDlCameraComponent;
+class UDlHealthComponent;
 
 UCLASS()
 class DL_API ADlCharacter : public AModularCharacter, public IAbilitySystemInterface
@@ -18,6 +19,9 @@ class DL_API ADlCharacter : public AModularCharacter, public IAbilitySystemInter
 public:
 	// Sets default values for this character's properties
 	ADlCharacter();
+
+	void OnAbilitySystemInitialized();
+	void OnAbilitySystemUninitialized();
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
@@ -39,4 +43,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Dl|Character")
 	TObjectPtr<UDlCameraComponent> CameraComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Dl|Character")
+	TObjectPtr<UDlHealthComponent> HealthComponent;
 };

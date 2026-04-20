@@ -21,6 +21,10 @@ class DL_API UDlExperienceDefinition : public UPrimaryDataAsset
 public:
 	UDlExperienceDefinition(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
+#if WITH_EDITORONLY_DATA
+	virtual void UpdateAssetBundleData() override;
+#endif
+
 	/**
 	 * member variables
 	 */

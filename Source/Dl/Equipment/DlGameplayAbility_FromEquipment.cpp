@@ -2,6 +2,7 @@
 
 #include "DlGameplayAbility_FromEquipment.h"
 #include "DlEquipmentInstance.h"
+#include "Dl/Inventory/DlInventoryItemInstance.h"
 
 UDlEquipmentInstance* UDlGameplayAbility_FromEquipment::GetAssociatedEquipment() const
 {
@@ -13,6 +14,18 @@ UDlEquipmentInstance* UDlGameplayAbility_FromEquipment::GetAssociatedEquipment()
 	{
 		// GameplayAbility_FromEquipment는 EquipmentInstance로부터 GiveAbility를 진행했으므로, SourceObject에 EquipmentInstance가 저장되어 있음
 		return Cast<UDlEquipmentInstance>(Spec->SourceObject.Get());
+	}
+	return nullptr;
+}
+
+UDlInventoryItemInstance* UDlGameplayAbility_FromEquipment::GetAssociatedItem() const
+{
+	if (UDlEquipmentInstance* Equipment = GetAssociatedEquipment())
+	{
+		// In Lyra, equipment is equipped by inventory item instance:
+		// - so, equipment's instigator should be inventory item instance
+		// - otherwise, it will return nullptr by failing casting to DlInventoryItemInstance
+		return Cast<UDlInventoryItemInstance>(Equipment->GetInstigator());
 	}
 	return nullptr;
 }

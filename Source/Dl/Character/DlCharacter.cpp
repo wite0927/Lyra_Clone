@@ -4,6 +4,7 @@
 #include "DlPawnExtensionComponent.h"
 #include "Dl/AbilitySystem/DlAbilitySystemComponent.h"
 #include "Dl/Camera/DlCameraComponent.h"
+#include "DlHealthComponent.h"
 
 // Sets default values
 ADlCharacter::ADlCharacter()
@@ -13,12 +14,34 @@ ADlCharacter::ADlCharacter()
 	PrimaryActorTick.bCanEverTick = false;
 
 	PawnExtComponent = CreateDefaultSubobject<UDlPawnExtensionComponent>(TEXT("PawnExtensionComponent"));
+	{
+		PawnExtComponent->OnAbilitySystemInitialized_RegisterAndCall(FSimpleMulticastDelegate::FDelegate::CreateUObject(this, &ThisClass::OnAbilitySystemInitialized));
+		PawnExtComponent->OnAbilitySystemUninitialized_Register(FSimpleMulticastDelegate::FDelegate::CreateUObject(this, &ThisClass::OnAbilitySystemUninitialized));
+	}
 
 	// CameraComponent 생성
 	{
 		CameraComponent = CreateDefaultSubobject<UDlCameraComponent>(TEXT("CameraComponent"));
 		CameraComponent->SetRelativeLocation(FVector(-300.0f, 0.0f, 75.0f));
 	}
+
+	{
+		HealthComponent = CreateDefaultSubobject<UDlHealthComponent>(TEXT("HealthComponent"));
+	}
+}
+
+void ADlCharacter::OnAbilitySystemInitialized()
+{
+	UDlAbilitySystemComponent* DlASC = Cast<UDlAbilitySystemComponent>(GetAbilitySystemComponent());
+	check(DlASC);
+
+	// HealthComponent의 ASC를 통한 초기화
+	HealthComponent->InitializeWithAbilitySystem(DlASC);
+}
+
+void ADlCharacter::OnAbilitySystemUninitialized()
+{
+	HealthComponent->UninitializeWithAbilitySystem();
 }
 
 UAbilitySystemComponent* ADlCharacter::GetAbilitySystemComponent() const

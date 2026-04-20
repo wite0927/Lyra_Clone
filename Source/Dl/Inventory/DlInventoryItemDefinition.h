@@ -6,6 +6,8 @@
 #include "UObject/NoExportTypes.h"
 #include "DlInventoryItemDefinition.generated.h"
 
+class UDlInventoryItemInstance;
+
 /**
  * ItemComponent °°Àº ´À³¦
  * Lyra¿¡¼­´Â ÀåÂø(±ÇÃÑ)/¼Òºñ(¹°¾à) ·Î ³ª´®
@@ -20,7 +22,8 @@ class UDlInventoryItemFragment : public UObject
 {
 	GENERATED_BODY()
 public:
-
+	/** interface to call when inventory item instance is added to UDlInventoryManagerComponent's InventoryList */
+	virtual void OnInstanceCreated(UDlInventoryItemInstance* Instance) const {}
 };
 
 /**

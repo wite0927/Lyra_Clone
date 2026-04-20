@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CommonGameInstance.h"
 #include "Engine/GameInstance.h"
 #include "DlGameInstance.generated.h"
 
@@ -10,7 +11,7 @@
  * 
  */
 UCLASS()
-class DL_API UDlGameInstance : public UGameInstance
+class DL_API UDlGameInstance : public UCommonGameInstance
 {
 	GENERATED_BODY()
 

@@ -13,7 +13,11 @@
 				"ModularGameplay",
 				"CoreUObject",
 				"EnhancedInput",
-				"GameplayAbilities"
+				"GameplayAbilities",
+				"ModularGameplayActors",
+				"CommonGame",
+				"CommonUI",
+				"UMG"
 			]
 		}
 	],
@@ -51,6 +55,10 @@
 		},
 		{
 			"Name": "AnimationLocomotionLibrary",
+			"Enabled": true
+		},
+		{
+			"Name": "CommonUI",
 			"Enabled": true
 		}
 	]

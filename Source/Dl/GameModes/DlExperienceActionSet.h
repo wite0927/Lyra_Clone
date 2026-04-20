@@ -19,6 +19,10 @@ class DL_API UDlExperienceActionSet : public UPrimaryDataAsset
 public:
 	UDlExperienceActionSet();
 
+#if WITH_EDITORONLY_DATA
+	virtual void UpdateAssetBundleData() override;
+#endif
+
 	UPROPERTY(EditAnywhere, Category = "Actions to Perform")
 	TArray<TObjectPtr<UGameFeatureAction>> Actions;
 };

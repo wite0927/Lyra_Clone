@@ -68,8 +68,16 @@ public:
 	UDlEquipmentInstance* EquipItem(TSubclassOf<UDlEquipmentDefinition> EquipmentDefinition);
 	void UnequipItem(UDlEquipmentInstance* ItemInstance);
 
+	UDlEquipmentInstance* GetFirstInstanceOfType(TSubclassOf<UDlEquipmentInstance> InstanceType);
+
 	UFUNCTION(BlueprintCallable)
 	TArray<UDlEquipmentInstance*> GetEquipmentInstancesOfType(TSubclassOf<UDlEquipmentInstance> InstanceType) const;
+
+	template <typename T>
+	T* GetFirstInstanceOfType()
+	{
+		return (T*)GetFirstInstanceOfType(T::StaticClass());
+	}
 
 	UPROPERTY()
 	FDlEquipmentList EquipmentList;

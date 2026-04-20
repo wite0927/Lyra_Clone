@@ -7,6 +7,7 @@
 #include "DlGameplayAbility_FromEquipment.generated.h"
 
 class UDlEquipmentInstance;
+class UDlInventoryItemInstance;
 
 /**
  * 
@@ -17,4 +18,5 @@ class DL_API UDlGameplayAbility_FromEquipment : public UDlGameplayAbility
 	GENERATED_BODY()
 public:
 	UDlEquipmentInstance* GetAssociatedEquipment() const;
+	UDlInventoryItemInstance* GetAssociatedItem() const;
 };

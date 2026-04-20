@@ -54,6 +54,19 @@ void UDlExperienceManagerComponent::StartExperienceLoad()
 	TSet<FPrimaryAssetId> BundleAssetList;
 	BundleAssetList.Add(CurrentExperience->GetPrimaryAssetId());
 
+	// ExperienceActionSet의 순회하며, BundleAssetList로 추가하자:
+	for (const TObjectPtr<UDlExperienceActionSet>& ActionSet : CurrentExperience->ActionSets)
+	{
+		if (ActionSet)
+		{
+			// 앞서, 우리가 생성한 HAS_Shooter_SharedHUD가 추가되겠다 (물론 추가적인 HAS_Shooter_XXX)도 추가될거다
+			// - BundleAssetList는 Bundle로 등록할 Root의 PrimaryDataAsset를 추가하는 과정이다
+			//   (->??? 무슨말인가 싶을건데 ChangeBundleStateForPrimaryAssets)을 살펴보면서 이해하자
+			BundleAssetList.Add(ActionSet->GetPrimaryAssetId());
+		}
+	}
+
+
 	TArray<FName> BundlesToLoad;
 	{
 		const ENetMode OwnerNetMode = GetOwner()->GetNetMode();

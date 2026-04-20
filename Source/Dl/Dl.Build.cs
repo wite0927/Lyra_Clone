@@ -25,6 +25,15 @@ public class Dl : ModuleRules
             "EnhancedInput",
 
 			"CommonUser",
+
+			"CommonGame",
+			"CommonUI",
+			"UMG",
+
+			"UIExtension",
+
+			"Slate",
+			"SlateCore",
         });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

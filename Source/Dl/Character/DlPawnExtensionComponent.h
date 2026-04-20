@@ -8,7 +8,6 @@
 #include "DlPawnExtensionComponent.generated.h"
 
 class UDlAbilitySystemComponent;
-
 class UDlPawnData;
 
 /**
@@ -35,6 +34,10 @@ public:
 	void UninitializeAbilitySystem();
 	UDlAbilitySystemComponent* GetDlAbilitySystemComponent() const { return AbilitySystemComponent; }
 
+	/** OnAbilitySystem[Initialized|Uninitialized] Delegate에 추가: */
+	void OnAbilitySystemInitialized_RegisterAndCall(FSimpleMulticastDelegate::FDelegate Delegate);
+	void OnAbilitySystemUninitialized_Register(FSimpleMulticastDelegate::FDelegate Delegate);
+
 	//UPawnComponent interfaces
 	virtual void OnRegister() final;
 	virtual void BeginPlay() final;
@@ -55,4 +58,8 @@ public:
 	/** AbilitySystemComponent 캐싱 */
 	UPROPERTY()
 	TObjectPtr<UDlAbilitySystemComponent> AbilitySystemComponent;
+
+	/** ASC Init과 Uninit의 Delegate 추가 */
+	FSimpleMulticastDelegate OnAbilitySystemInitialized;
+	FSimpleMulticastDelegate OnAbilitySystemUninitialized;
 };
