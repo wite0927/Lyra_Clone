@@ -50,23 +50,29 @@
 - **HUD / UI**  
   HealthBar, AmmoCounter 등 주요 HUD 요소를 구현하며 UI 구조를 정리했습니다.
 
----
-
+```text
 ## 소스 코드 구조 (Source Code Structure)
 
 ```text
-Source/HakGame/
-├── AbilitySystem/      # GAS 관련 클래스
-├── Animation/          # 애니메이션 관련 클래스
-├── Camera/             # 카메라 시스템
-├── Character/          # 캐릭터 및 플레이어 관련 클래스
-├── Equipment/          # 장비 시스템
-├── Inventory/          # 인벤토리 시스템
-├── UI/                 # HUD 및 UI 관련 클래스
-└── Weapons/            # 무기 관련 클래스
+Source/DI/
+├── AbilitySystem/   # Gameplay Ability System 관련 클래스
+├── Animation/       # 애니메이션 인스턴스 및 애니메이션 처리
+├── Camera/          # 카메라 시스템
+├── Character/       # 캐릭터 및 Pawn 관련 클래스
+├── Cosmetics/       # 캐릭터 외형 및 코스메틱 처리
+├── Equipment/       # 장비 시스템
+├── GameFeatures/    # GameFeature 관련 클래스
+├── GameModes/       # 게임 모드 및 게임 흐름 관리
+├── Input/           # 입력 처리 관련 클래스
+├── Inventory/       # 인벤토리 시스템
+├── Physics/         # 물리 및 충돌 관련 처리
+├── Player/          # PlayerController, PlayerState 등 플레이어 관련 클래스
+├── System/          # 공용 시스템 및 매니저 클래스
+└── UI/              # HUD 및 UI 관련 클래스
 
 Plugins/
+├── CommonGame/
 ├── CommonUser/
-├── ShooterCore/
+├── GameFeatures/ShooterCore/
 ├── ModularGameplayActors/
-└── CommonGame/
+└── UIExtension/
