@@ -8,7 +8,7 @@ Unreal Engine 5 기반의 Lyra Starter Game 클론 코딩 프로젝트입니다.
 이 프로젝트는 Epic Games의 Lyra Starter Game을 분석하며,
 언리얼 엔진의 샘플 프로젝트를 “왜 이렇게 설계되었는가” 관점에서 따라 구현한 클론 코딩 프로젝트입니다.
 
-초기에는 UE5 소스 환경 구성과 프로젝트 세팅, DefaultEditorOverview 맵 구성부터 시작했고,
+초기에는 UE5 소스 환경 구성과 프로젝트 세팅, 맵 구성부터 시작했고, 
 이후 AssetManager / Experience / GameFeature / Modular Gameplay / Inventory / Equipment / GAS / GameplayCue / UI/HUD / Health / Ammo UI까지 점진적으로 확장했습니다.
 매 주차별 구현 내용을 정리하며, 단순 구현이 아니라 구조 이해와 디버깅 과정까지 기록하는 방식으로 학습했습니다.
 
