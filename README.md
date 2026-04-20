@@ -53,7 +53,6 @@
 ```text
 ## 소스 코드 구조 (Source Code Structure)
 
-```text
 Source/DI/
 ├── AbilitySystem/   # Gameplay Ability System 관련 클래스
 ├── Animation/       # 애니메이션 인스턴스 및 애니메이션 처리
